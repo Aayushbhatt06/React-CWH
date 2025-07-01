@@ -7,6 +7,22 @@ export default function TextForm(props) {
         setText(newTxt)
     }
 
+    const handleclear = () => {
+        
+        setText('')
+    }
+
+    const handleCapClick = () => {
+    let words = text.split(" ");
+    let capitalizedWords = words.map(word => {
+      if (word.length === 0) return "";
+      return word[0].toUpperCase() + word.slice(1).toLowerCase();
+    });
+    let newText = capitalizedWords.join(" ");
+    setText(newText);
+};
+
+
     const handleSpeedChange = (event) => {
     setReadingSpeed(Number(event.target.value));
   };
@@ -20,15 +36,30 @@ export default function TextForm(props) {
         setText(event.target.value)
     }
 
-    const [text,setText] = useState('Enter Your Text Here')
+    const handleCopy = () => {
+        let text = document.getElementById("myBox");
+        text.select();
+        navigator.clipboard.writeText(text.value);
+    };
+
+    const handleExtraSpaces = () => {
+        let newText = text.split(/[ ]+/);
+        setText(newText.join(" "))
+    }
+
+    const [text,setText] = useState('')
   return (
     <div>
        <h1>{props.heading}</h1>  
     <div className="mb-3">
-        <textarea className="form-control" value = {text} id="myBox" onChange={handleOnChange}rows="8"></textarea>    
+        <textarea className="form-control" value = {text} id="myBox" placeholder='Enter Text Here' onChange={handleOnChange}rows="8"></textarea>    
     </div>
     <button className="btn btn-primary mx-2" onClick={handleUpClick}>Convert to Uppercase</button>
     <button className="btn btn-primary mx-2" onClick={handleLoClick}>Convert to Lowercase</button>
+    <button className="btn btn-primary mx-2" onClick={handleCapClick}>hello - Hello</button>
+    <button className="btn btn-primary mx-2" onClick={handleclear}>Clear Text</button>
+      <button className="btn btn-primary mx-2" onClick={handleCopy}>Copy Text</button>
+      <button className="btn btn-primary mx-2" onClick={handleExtraSpaces}>Remove Extra Spaces</button>
     <div className="container">
       <h2 className="my-3">Your Summary</h2>
       <p className="Summary">{text.split(" ").length} words         {text.length} Characters</p>
@@ -37,7 +68,7 @@ export default function TextForm(props) {
           className="form-control me-2"
           type="number"
           placeholder="Enter reading speed (words/min)"
-          value={readingSpeed}
+          // value={readingSpeed}
           onChange={handleSpeedChange}
         />
       <p className="time">{text.split(" ").length/readingSpeed} minutes to read</p>
