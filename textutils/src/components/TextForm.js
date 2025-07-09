@@ -5,11 +5,12 @@ export default function TextForm(props) {
     const handleUpClick = () => {
         let newTxt = text.toUpperCase()
         setText(newTxt)
+        props.showAlert("Text was set to Uppercase", "success")
     }
 
     const handleclear = () => {
-        
-        setText('')
+      setText('')
+      props.showAlert("Text was Cleared", "success")
     }
 
     const handleCapClick = () => {
@@ -20,6 +21,7 @@ export default function TextForm(props) {
     });
     let newText = capitalizedWords.join(" ");
     setText(newText);
+    props.showAlert("Text was Aranged", "success")
 };
 
 
@@ -30,6 +32,7 @@ export default function TextForm(props) {
     const handleLoClick = () => {
         let newTxt = text.toLowerCase()
         setText(newTxt)
+        props.showAlert("Text was set to Lowercase", "success")
     }
 
     const handleOnChange = (event) => {
@@ -40,11 +43,13 @@ export default function TextForm(props) {
         let text = document.getElementById("myBox");
         text.select();
         navigator.clipboard.writeText(text.value);
+        props.showAlert("Text was Copied", "success")
     };
 
     const handleExtraSpaces = () => {
         let newText = text.split(/[ ]+/);
         setText(newText.join(" "))
+        props.showAlert("Extra Spaces were removed", "success")
     }
 
     const [text,setText] = useState('')
